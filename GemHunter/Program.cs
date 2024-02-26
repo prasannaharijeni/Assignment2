@@ -1,2 +1,15 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿
+
+
+
+
+
+class Program
+{
+    //This method will start the application
+    static void Main()
+    {
+        Game game = new Game();
+        game.Start();
+    }
+}
