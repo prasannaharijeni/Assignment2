@@ -144,6 +144,81 @@ class Board
     }
 }
 
+class Game
+{
+    public Board Board { get; set; }
+    public Player Player1 { get; set; }
+    public Player Player2 { get; set; }
+    public Player CurrentTurn { get; set; }
+    public int TotalTurns { get; set; } = 0;
+
+    public Game()
+    {
+        Board = new Board();
+        Player1 = new Player("P1", new Position(0, 0));
+        Player2 = new Player("P2", new Position(5, 5));
+        CurrentTurn = Player1;
+    }
+    //game begins, start game
+    public void Start()
+    {
+        Console.WriteLine("Welcome to Gem Hunters!");
+        while (!IsGameOver())
+        {
+            Board.display();
+            char direction;
+            do
+            {
+                Console.WriteLine($"{CurrentTurn.Name}'s turn. Please enter move (U, D, L, R):");
+                TotalTurns++;
+
+                direction = Char.ToUpper(Console.ReadKey().KeyChar);
+                var validMove = Board.isValidMove(CurrentTurn, direction);
+                if (validMove)
+                {
+                    CurrentTurn.move(direction);
+                    Board.CollectGem(CurrentTurn);
+                }
+                Console.WriteLine();
+                Board.display();
+                SwitchTurn();
+            } while (!IsGameOver());
+        }
+        Board.display();
+        AnnounceWinner();
+    }
+    //Switches between player1 and Player2
+    public void SwitchTurn()
+    {
+        CurrentTurn = (CurrentTurn == Player1) ? Player2 : Player1;
+    }
+    //Checks if the game has reached its end condition.
+    public bool IsGameOver()
+    {
+        return TotalTurns == 15;
+    }
+    //Announce the game winner based on the GemCount of both player
+    public void AnnounceWinner()
+    {
+        Board.display();
+        Console.WriteLine("Game Over!");
+        Console.WriteLine($"Player1's Total Gems Count: {Player1.GemCount}");
+        Console.WriteLine($"Player2's Total Gems Count: {Player2.GemCount}");
+
+        if (Player1.GemCount > Player2.GemCount)
+        {
+            Console.WriteLine("WooHoo!!! Player 1 wins!");
+        }
+        else if (Player1.GemCount < Player2.GemCount)
+        {
+            Console.WriteLine("WooHoo!!! Player 2 wins!");
+        }
+        else
+        {
+            Console.WriteLine("Great Match!! It's a tie!! Both Players well played!!!");
+        }
+    }
+}
 
 class Program
 {
