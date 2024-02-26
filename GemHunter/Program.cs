@@ -49,6 +49,15 @@ class Player
     }
 }
 
+class Cell
+{
+    public string Occupant { get; set; }
+    public Cell(string occupant)
+    {
+        Occupant = occupant;
+    }
+}
+
 class Program
 {
     //This method will start the application
