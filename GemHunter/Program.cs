@@ -25,7 +25,7 @@ class Player
         Position = startPosition;
         GemCount = 0;
     }
-    //direction reprensentation
+    //This method is to place the player on new position on the board using the optional valid moves available.
     public void move(char direction)
     {
         var position = Position;
@@ -64,16 +64,16 @@ class Board
 
     public Board()
     {
-        // Initialize the board with empty spaces
+        // Initialize the board with empty spaces to navigate through!!!
         for (int i = 0; i < 6; i++)
             for (int j = 0; j < 6; j++)
                 Grid[i, j] = new Cell("-");
 
-        // Place players
+        // Place player 1 on top left corner and player 2 on the bottom most right on the board!!!
         Grid[0, 0].Occupant = "P1";
         Grid[5, 5].Occupant = "P2";
 
-        // Place gems and Obstacles
+        // Place gems and Obstacles on Random positions
         Random random = new Random();
         for (int i = 0; i < 5; i++)
         {
@@ -93,7 +93,7 @@ class Board
             Grid[obsX, obsY].Occupant = "O";
         }
     }
-    //method to display Current position of theplayers in the  board
+    //This method is to display the Current position of both the players on the Board...
     public void display()
     {
         for (int i = 0; i < 6; i++)
@@ -103,7 +103,7 @@ class Board
             Console.WriteLine();
         }
     }
-    //Checks the players move is valid or not
+    //This method Checks if the players move is valid or not!!
     public bool isValidMove(Player player, char direction)
     {
         int newX = player.Position.X;
@@ -133,7 +133,7 @@ class Board
 
         return isValidMove;
     }
-    //Checks if the player's new position contains a gem and updates the player's GemCount.
+    //This method will check the player's newly landed position contains the Gem. If yes!! then the GemCount will be incremented!! 
     public void CollectGem(Player player)
     {
         if (Grid[player.Position.X, player.Position.Y].Occupant == "G")
@@ -144,6 +144,7 @@ class Board
     }
 }
 
+//Game class holds the whole mechanism of the game...
 class Game
 {
     public Board Board { get; set; }
@@ -159,7 +160,7 @@ class Game
         Player2 = new Player("P2", new Position(5, 5));
         CurrentTurn = Player1;
     }
-    //game begins, start game
+    //This method will Start the game, manipulate the Board and announce the winner. Thus this method acts as a heart of the game.
     public void Start()
     {
         Console.WriteLine("Welcome to Gem Hunters!");
@@ -187,17 +188,17 @@ class Game
         Board.display();
         AnnounceWinner();
     }
-    //Switches between player1 and Player2
+    //Switching between player1 and Player2
     public void SwitchTurn()
     {
         CurrentTurn = (CurrentTurn == Player1) ? Player2 : Player1;
     }
-    //Checks if the game has reached its end condition.
+    //This method will verify whether the game came to an end or not.
     public bool IsGameOver()
     {
         return TotalTurns == 15;
     }
-    //Announce the game winner based on the GemCount of both player
+    //This method will announce the game winner by comparing both player's Total GemCount.
     public void AnnounceWinner()
     {
         Board.display();
